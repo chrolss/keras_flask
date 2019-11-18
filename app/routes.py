@@ -1,26 +1,10 @@
 from app import app
-from flask import request, redirect, render_template, jsonify
-import tensorflow as tf
+from flask import request, redirect, render_template, jsonify, url_for, session
 import os
-import argparse
-import json
-import cv2
-from utils.utils import get_yolo_boxes, makedirs
-from utils.bbox import draw_boxes
-from keras.models import load_model
-from tqdm import tqdm
-import numpy as np
-
+import inference
 
 app.config['UPLOAD_FOLDER'] = 'C:\\Users\\colsson\\uploads'
-
-
-def load():
-    global model
-    model = load_model('raccoon.h5')
-    global graph
-    graph = tf.get_default_graph()
-
+inference_model = inference.Model()
 
 @app.route('/')
 @app.route('/index')
@@ -40,37 +24,37 @@ def upload_image():
             print("trying to save")
             image.save(os.path.join(app.config['UPLOAD_FOLDER'], image.filename))
             print("image saved")
-
-            return redirect(request.url)
+            session['img_url'] = os.path.join(app.config['UPLOAD_FOLDER'], image.filename)
+            #return redirect(request.url)
+            return redirect(url_for('predict_file'))
 
     return render_template("public/upload_image.html")
+
 
 @app.route('/predict', methods=["GET", "POST"])
 def predict():
-    #load()
-    model = load_model('raccoon.h5')
-    graph = tf.get_default_graph()
-    with graph.as_default():
-        # Setup basic parameters
-        net_h, net_w = 416, 416  # a multiple of 32, the smaller the faster
-        obj_thresh, nms_thresh = 0.5, 0.45
+    print("Start predicting")
+    prediction = inference_model.predict()
+    print("Done predicting")
 
-        # For testing
-        image_path = 'C:\\Users\\colsson\\uploads\\raccoon-118.jpg'
-        output_path = 'C:\\Users\\colsson\\uploads\\predictions'
+    return jsonify(prediction)
 
-        image = cv2.imread(image_path)
-        print(image_path)
 
-        # predict the bounding boxes
-        boxes = \
-            get_yolo_boxes(model, [image], net_h, net_w, config['model']['anchors'], obj_thresh, nms_thresh)[0]
+@app.route('/predict_file', methods=["GET", "POST"])
+def predict_file():
+    print("Start predicting path")
+    print(session['img_url'])
+    prediction = inference_model.predict_file(session['img_url'])
+    print("Done predicting path")
+    session['result_img'] = prediction
 
-        # draw bounding boxes on the image using labels
-        draw_boxes(image, boxes, config['model']['labels'], obj_thresh)
+    return redirect(url_for('display_image'))
+    #return jsonify(prediction)
 
-        # write the image with bounding boxes to file
-        cv2.imwrite(output_path + image_path.split('/')[-1], np.uint8(image))
 
-    return render_template("public/upload_image.html")
+@app.route('/display_image', methods=["GET", "POST"])
+def display_image():
+    filename = session['result_img']
+    print("filename in display_image: " + filename)
+    return render_template("display-image.html", img_filepath=filename)
 

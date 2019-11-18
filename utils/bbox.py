@@ -62,7 +62,6 @@ def draw_boxes(image, boxes, labels, obj_thresh, quiet=True):
         label = -1
         
         for i in range(len(labels)):
-            print("i is: " + str(i))
             if box.classes[i] > obj_thresh:
                 if label_str != '': label_str += ', '
                 label_str += (labels[i] + ' ' + str(round(box.get_score()*100, 2)) + '%')

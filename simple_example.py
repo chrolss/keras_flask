@@ -1,12 +1,6 @@
 from flask import Flask, jsonify, request
 import inference
 
-
-# For the thread error
-import keras.backend.tensorflow_backend as tb
-tb._SYMBOLIC_SCOPE.value = True
-
-
 app = Flask(__name__)
 inference_model = inference.Model()
 

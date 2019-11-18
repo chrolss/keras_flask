@@ -199,10 +199,10 @@ def decode_netout(netout, anchors, obj_thresh, net_h, net_w):
             
             # last elements are class probabilities
             classes = netout[row,col,b,5:]
-            print(type(classes))
-            print(classes)
-            print(type(objectness))
-            print(objectness)
+            #print(type(classes))
+            #print(classes)
+            #print(type(objectness))
+            #print(objectness)
             
             box = BoundBox(x-w/2, y-h/2, x+w/2, y+h/2, objectness, classes)
 
