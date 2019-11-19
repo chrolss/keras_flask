@@ -3,9 +3,9 @@ from flask import request, redirect, render_template, jsonify, url_for, session
 import os
 import inference
 
-app.config['UPLOAD_FOLDER'] = 'C:\\Users\\colsson\\uploads'
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 app.config['PREDICTION_FOLDER'] = os.path.join(APP_ROOT, 'static')
+app.config['UPLOAD_FOLDER'] = os.path.join(APP_ROOT, 'image_uploads')
 inference_model = inference.Model()
 
 
