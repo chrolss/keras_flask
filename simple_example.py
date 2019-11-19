@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, request
 import inference
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='/static')
 inference_model = inference.Model()
 
 # request model prediction

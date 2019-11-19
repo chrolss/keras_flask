@@ -1,0 +1,18 @@
+<html>
+    <head>
+        {% if title %}
+        <title>{{ title }} - Keras-yolo3</title>
+        {% else %}
+        <title>Keras-yolo3 webapp</title>
+        {% endif %}
+    </head>
+    <body>
+        <div>
+            <a href="{{url_for('index')}}">Home</a>
+            <a href="{{url_for('upload_image')}}">Upload image</a>
+            <a href="{{url_for('display_image')}}">Display latest result</a>
+        </div>
+        <hr>
+        {% block content %}{% endblock %}
+    </body>
+</html>

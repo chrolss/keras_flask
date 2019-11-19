@@ -4,12 +4,13 @@ import os
 import inference
 
 app.config['UPLOAD_FOLDER'] = 'C:\\Users\\colsson\\uploads'
+APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 inference_model = inference.Model()
 
 @app.route('/')
 @app.route('/index')
 def index():
-    return "Hello, World!"
+    return render_template("public/index.html")
 
 
 @app.route('/upload-image', methods=["GET", "POST"])

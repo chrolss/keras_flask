@@ -1,9 +1,7 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>display-image</title>
-</head>
-<body>
-    <img src="raccoon-188.jpg" alt="User Image">
-</body>
-</html>
+{% extends "public/base.html" %}
+
+{% block content %}
+    <div>
+        <img src="{{url_for('static', filename=img_filepath)}}" alt="User Image">
+    </div>
+{% endblock %}

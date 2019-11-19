@@ -22,6 +22,7 @@ class Model(object):
         # For testing
         input_path = 'raccoon-188.jpg'
         output_path = 'C:\\Users\\colsson\\uploads\\predictions\\'
+
         anchors = [55, 69, 75, 234, 133, 240, 136, 129, 142, 363, 203, 290, 228, 184, 285, 359, 341, 260]
         # Required because of a bug in Keras when using tensorflow graph cross threads
         image_paths = []
@@ -57,7 +58,8 @@ class Model(object):
         # For testing
         input_path = filepath
         print("The filepath is: " + str(filepath))
-        output_path = 'C:\\Users\\colsson\\uploads\\predictions\\'
+        # output_path = 'C:\\Users\\colsson\\uploads\\predictions\\'
+        output_path = 'C:\\Users\\colsson\\PycharmProjects\\keras_flask\\app\\static\\'
         anchors = [55, 69, 75, 234, 133, 240, 136, 129, 142, 363, 203, 290, 228, 184, 285, 359, 341, 260]
         # Required because of a bug in Keras when using tensorflow graph cross threads
         image_paths = []
@@ -82,7 +84,8 @@ class Model(object):
 
             # write the image with bounding boxes to file
             #cv2.imwrite(output_path + image_path.split('/')[-1], np.uint8(image))
-            result_filepath = output_path + image_path.split('\\')[-1]
+            # result_filepath = output_path + image_path.split('\\')[-1]
+            result_filepath = image_path.split('\\')[-1]
             cv2.imwrite(output_path + image_path.split('\\')[-1], np.uint8(image))
             #print(str(output_path + image_path.split('\\')[-1]))
             prediction = {'result': "hej filepath!"}
