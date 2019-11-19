@@ -8,7 +8,7 @@ from utils.bbox import draw_boxes
 
 def load_the_model():
     os.environ['CUDA_VISIBLE_DEVICES'] = "0"
-    loaded_model = load_model('raccoon.h5')
+    loaded_model = load_model('models/raccoon.h5')
     return loaded_model
 
 
@@ -52,14 +52,14 @@ class Model(object):
 
         return prediction
 
-    def predict_file(self, filepath):
+    def predict_file(self, filepath, output_path):
         net_h, net_w = 416, 416  # a multiple of 32, the smaller the faster
         obj_thresh, nms_thresh = 0.5, 0.45
         # For testing
         input_path = filepath
         print("The filepath is: " + str(filepath))
         # output_path = 'C:\\Users\\colsson\\uploads\\predictions\\'
-        output_path = 'C:\\Users\\colsson\\PycharmProjects\\keras_flask\\app\\static\\'
+        # output_path = 'C:\\Users\\colsson\\PycharmProjects\\keras_flask\\app\\static\\'
         anchors = [55, 69, 75, 234, 133, 240, 136, 129, 142, 363, 203, 290, 228, 184, 285, 359, 341, 260]
         # Required because of a bug in Keras when using tensorflow graph cross threads
         image_paths = []
@@ -86,7 +86,7 @@ class Model(object):
             #cv2.imwrite(output_path + image_path.split('/')[-1], np.uint8(image))
             # result_filepath = output_path + image_path.split('\\')[-1]
             result_filepath = image_path.split('\\')[-1]
-            cv2.imwrite(output_path + image_path.split('\\')[-1], np.uint8(image))
+            cv2.imwrite(output_path + '/' + image_path.split('\\')[-1], np.uint8(image))
             #print(str(output_path + image_path.split('\\')[-1]))
             prediction = {'result': "hej filepath!"}
 

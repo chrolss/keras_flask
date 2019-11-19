@@ -5,6 +5,7 @@ import inference
 
 app.config['UPLOAD_FOLDER'] = 'C:\\Users\\colsson\\uploads'
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
+app.config['PREDICTION_FOLDER'] = os.path.join(APP_ROOT, 'static')
 inference_model = inference.Model()
 
 
@@ -27,7 +28,7 @@ def upload_image():
             image.save(os.path.join(app.config['UPLOAD_FOLDER'], image.filename))
             print("image saved")
             session['img_url'] = os.path.join(app.config['UPLOAD_FOLDER'], image.filename)
-            #return redirect(request.url)
+
             return redirect(url_for('predict_file'))
 
     return render_template("public/upload_image.html")
@@ -46,12 +47,11 @@ def predict():
 def predict_file():
     print("Start predicting path")
     print(session['img_url'])
-    prediction = inference_model.predict_file(session['img_url'])
+    prediction = inference_model.predict_file(session['img_url'], app.config['PREDICTION_FOLDER'])
     print("Done predicting path")
     session['result_img'] = prediction
 
     return redirect(url_for('display_image'))
-    #return jsonify(prediction)
 
 
 @app.route('/display_image', methods=["GET", "POST"])
