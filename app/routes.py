@@ -7,6 +7,7 @@ app.config['UPLOAD_FOLDER'] = 'C:\\Users\\colsson\\uploads'
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 inference_model = inference.Model()
 
+
 @app.route('/')
 @app.route('/index')
 def index():
