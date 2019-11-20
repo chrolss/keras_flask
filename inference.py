@@ -85,8 +85,12 @@ class Model(object):
             # write the image with bounding boxes to file
             #cv2.imwrite(output_path + image_path.split('/')[-1], np.uint8(image))
             # result_filepath = output_path + image_path.split('\\')[-1]
-            result_filepath = image_path.split('\\')[-1]
-            cv2.imwrite(output_path + '/' + image_path.split('\\')[-1], np.uint8(image))
+
+            #temp_fp = os.path.join(output_path, image_path.split('\\'))
+            # cv2.imwrite(output_path + '/' + image_path.split('\\')[-1], np.uint8(image))  # For windows
+            # result_filepath = image_path.split('\\')[-1]                                  # For windows
+            cv2.imwrite(output_path + '/' + image_path.split('/')[-1], np.uint8(image))     # For Linux
+            result_filepath = image_path.split('/')[-1]                                     # For Linux
             #print(str(output_path + image_path.split('\\')[-1]))
             prediction = {'result': "hej filepath!"}
 
