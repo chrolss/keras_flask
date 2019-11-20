@@ -8,7 +8,6 @@ COPY requirements.txt requirements.txt
 RUN python -m venv venv
 RUN venv/bin/pip install pip==19.3.1
 RUN venv/bin/pip install -r requirements.txt
-RUN venv/bin/pip install gunicorn
 RUN apt-get update && apt-get install -y libglib2.0-0 libsm6 libxext6 libxrender-dev
 
 COPY app app
